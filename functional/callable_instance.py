@@ -9,7 +9,13 @@ class Resolver:
             self._cache[host] = socket.gethostbyname(host)
         return self._cache[host]
 
-resolve = Resolver()
+    def has_host(self, host):
+        return host in self._cache
+
+    def clear(self):
+        return self._cache.clear()
+
+resolve = Resolver() # Forwarded to the class's __init__()
 
 print(resolve('sixty-north.com'))
 # '93.93.131.30'
@@ -32,3 +38,11 @@ second_run = timeit(setup='from __main__ import resolve', stmt="resolve('google.
 print("First run: {:f}".format(first_run))
 
 print("Second run: {:f}".format(second_run))
+
+print(resolve.has_host('google.com'))
+# True
+
+resolve.clear()
+
+print(resolve.has_host('google.com'))
+# False
